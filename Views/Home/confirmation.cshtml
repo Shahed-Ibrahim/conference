@@ -1,0 +1,95 @@
+﻿@model conference.Models.Registration
+@{
+    ViewBag.Title = "Registration Confirmation";
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h2 class="panel-title">Registration Confirmed!</h2>
+    </div>
+    <div class="panel-body">
+        <p>Thank you for registering for Tech Summit 2025. Your registration has been received.</p>
+        <p>
+            <strong>Registration ID:</strong> @Model.ID <br />
+            <strong>Registration Date:</strong> @Model.RegistrationDate.ToString("MMM dd, yyyy hh:mm tt")
+        </p>
+
+        <h3>Your Registration Details</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <dl class="dl-horizontal">
+                    <dt>Name</dt>
+                    <dd>@Model.Name</dd>
+
+                    <dt>Email</dt>
+                    <dd>@Model.Email</dd>
+
+                    <dt>Company</dt>
+                    <dd>@Model.Company</dd>
+
+                    <dt>Track</dt>
+                    <dd>
+                        @{
+                            var trackName = "";
+                            switch (Model.Track)
+                            {
+                                case "web": trackName = "Web Development"; break;
+                                case "mobile": trackName = "Mobile Development"; break;
+                                case "cloud": trackName = "Cloud Computing"; break;
+                                case "data": trackName = "Data Science"; break;
+                                case "devops": trackName = "DevOps"; break;
+                            }
+                        }
+                        @trackName
+                    </dd>
+                    <dt>Workshops</dt>
+                    <dd>
+                        @if (Model.Workshops != null && Model.Workshops.Any())
+                        {
+                            <ul>
+                                @foreach (var workshop in Model.Workshops)
+                                {
+                                    var workshopName = "";
+                                    switch (workshop)
+                                    {
+                                        case "intro": workshopName = "Introduction to ASP.NET MVC"; break;
+                                        case "advanced": workshopName = "Advanced MVC Techniques"; break;
+                                        case "api": workshopName = "Building Web APIs"; break;
+                                    }
+                                    <li>@workshopName</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>No workshops selected.</span>
+                        }
+                    </dd>
+                    <dt>Dietary Preference</dt>
+                    <dd>
+                        @{
+                            var dietName = "";
+                            switch (Model.DietaryPreference)
+                            {
+                                case "none": dietName = "No special requirements"; break;
+                                case "vegetarian": dietName = "Vegetarian"; break;
+                                case "vegan": dietName = "Vegan"; break;
+                                case "gluten-free": dietName = "Gluten-free"; break;
+                            }
+                        }
+                        @dietName
+                    </dd>
+                    <dt>Comments</dt>
+                    <dd>@(string.IsNullOrEmpty(Model.Comments) ? "No comments provided" : Model.Comments)</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                @* You might have additional details to display in this column *@
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Return to Home</a>
+        </div>
+    </div>
+</div>
